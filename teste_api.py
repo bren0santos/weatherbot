@@ -29,6 +29,41 @@ def buscar_localizacao(cidade):
     except requests.exceptions.HTTPError:
         print("A API retornou um erro HTTP.")
 
-resultado = buscar_localizacao("Campinas")
-print(resultado)
+def buscar_clima(latitude, longitude):
+    url = "https://api.open-meteo.com/v1/forecast"
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "current": "temperature_2m,wind_speed_10m,weather_code"
+    }
+
+    try:
+        resposta = requests.get(url, params=params, timeout=10)
+        resposta.raise_for_status()
+
+        dados = resposta.json()
+        print(dados)
+        
+        if "current" in dados and dados["current"]:
+            clima = {
+                "temperature_2m": dados["current"]["temperature_2m"],
+                "wind_speed_10m": dados["current"]["wind_speed_10m"],
+                "weather_code": dados["current"]["weather_code"]
+            }
+            
+            return clima
+        else:
+            return None
+    
+    except requests.exceptions.Timeout:
+        print("A requisição excedeu o tempo limite")
+    except requests.exceptions.HTTPError:
+        print("A API retornou um erro HTTP.")         
+
+
+resultado_localizacao = buscar_localizacao("Campinas")
+print(resultado_localizacao)
+
+resultado_clima = buscar_clima(-22.90556, -47.06083)
+print(resultado_clima)
 
