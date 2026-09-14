@@ -64,6 +64,13 @@ def buscar_clima(latitude, longitude):
 resultado_localizacao = buscar_localizacao("Campinas")
 print(resultado_localizacao)
 
-resultado_clima = buscar_clima(-22.90556, -47.06083)
-print(resultado_clima)
+if resultado_localizacao is not None:
+    latitude = resultado_localizacao["latitude"]
+    longitude = resultado_localizacao["longitude"]
+    resultado_clima = buscar_clima(latitude, longitude)
+    print(resultado_clima)
+else:
+    print("Coordenadas não encontradas!")
+
+
 
