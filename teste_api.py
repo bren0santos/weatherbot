@@ -61,16 +61,17 @@ def buscar_clima(latitude, longitude):
         print("A API retornou um erro HTTP.")         
 
 
-resultado_localizacao = buscar_localizacao("Campinas")
-print(resultado_localizacao)
+if __name__ == "__main__":
+    resultado_localizacao = buscar_localizacao("Campinas")
+    print(resultado_localizacao)
 
-if resultado_localizacao is not None:
-    latitude = resultado_localizacao["latitude"]
-    longitude = resultado_localizacao["longitude"]
-    resultado_clima = buscar_clima(latitude, longitude)
-    print(resultado_clima)
-else:
-    print("Coordenadas não encontradas!")
+    if resultado_localizacao is not None:
+        latitude = resultado_localizacao["latitude"]
+        longitude = resultado_localizacao["longitude"]
+        resultado_clima = buscar_clima(latitude, longitude)
+        print(resultado_clima)
+    else:
+        print("Coordenadas não encontradas!")
 
 
 
