@@ -7,23 +7,15 @@ print("Mensagem recebida: ", mensagem)
 def interpretar_mensagem(mensagem):
     if mensagem.lower().startswith("clima em"):
         # print("A mensagem começa com 'clima em' ")
-        resultado = mensagem[8:].strip()   
-        return resultado
+        resultado = mensagem[8:].strip()
+        if resultado == "":
+            print("Cidade não informada")
+            return ""
+        else:   
+            return resultado
     else:
         print("A mensagem não começa com 'clima em' ")
         return None
-
-cidade = interpretar_mensagem(mensagem)
-print("Cidade identificada: ", cidade) 
-
-if cidade is not None:
-    localizacao = buscar_localizacao(cidade)
-    if localizacao is not None:
-        latitude = localizacao["latitude"]
-        longitude = localizacao["longitude"]
-        clima = buscar_clima(latitude, longitude)
-else:
-    print("Mensagem não reconhecida!")
     
 def interpretar_weather_code(codigo):
     if codigo == 0:
@@ -55,4 +47,24 @@ def resposta_usuario(cidade, clima):
     
     return f'O clima em {cidade} está com {str(temperatura).replace(".",",")}°C. \nCondição: {condicao_climatica}.\nVento: {str(velocidade_vento).replace(".",",")} km/h'
 
-print(resposta_usuario(cidade, clima))
+cidade = interpretar_mensagem(mensagem)
+print("Cidade identificada: ", cidade) 
+
+if cidade is not None:
+    if cidade != "":
+        localizacao = buscar_localizacao(cidade)
+        if localizacao is not None:
+            latitude = localizacao["latitude"]
+            longitude = localizacao["longitude"]
+            clima = buscar_clima(latitude, longitude)
+            if clima is not None:
+                resposta = resposta_usuario(cidade, clima)
+                print(resposta)
+            else:
+                print("Problema identificado!")
+        else:
+            print("Cidade não reconhecida!")
+    else:
+        print("Informe uma cidade.")
+else:
+    print("Mensagem não reconhecida!")

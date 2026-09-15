@@ -42,7 +42,6 @@ def buscar_clima(latitude, longitude):
         resposta.raise_for_status()
 
         dados = resposta.json()
-        print(dados)
         
         if "current" in dados and dados["current"]:
             clima = {
